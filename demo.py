@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 Demo file for class spaceMouseProWireless.
 """
@@ -13,7 +14,7 @@ import time
 
 if __name__ == "__main__":
 
-    controller = sm.Spacemouse()
+    controller = sm.SpaceMouseProWireless()
 
     # FOR LATER, in the moment only single button presses reliable
     # Remember if button pressed or released, starting with all released.
@@ -23,20 +24,15 @@ if __name__ == "__main__":
 
     # Loop, this usb device works with interrupt communication
     run = True
-    sleepPeriod = 0.01
+    sleepPeriod = 0.5
 
     while run:
         controller.get_interrupt_msg()
         if controller.escape:
             run = False
 
-        # Should print none with no movement
-        print('x     : ', controller.x)
-        print('y     : ', controller.y)
-        print('z     : ', controller.z)
-        print('roll  : ', controller.roll)
-        print('pitch : ', controller.pitch)
-        print('yaw   : ', controller.yaw)
+        for var in controller.interfaceVars:
+            print(var)
 
         print('B1     : ', controller.b1)
         print('B2     : ', controller.b2)
