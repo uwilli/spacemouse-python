@@ -3,9 +3,12 @@
 Python interface for 3D Connexion SpaceMouse Pro Wireless based on pyUsb.  
 Other 3D-Connexion devices have not been tested.
 
+Buttons 1-4 are single press, continuously pressing these does not generate a signal.
+The rest of the buttons can be pressed continuously.
+
 ## Work in progress
 
-Multiple button presses and combinations work now. I consider refactoring member variables to a list.
+Pressing at least 3 of the buttons 1 to 4 simultaneously generates false positives for other buttons.
 
 ## Getting started
 

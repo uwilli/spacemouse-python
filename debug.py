@@ -17,6 +17,8 @@ if __name__ == "__main__":
 
     #ct.print_device_connected()
     #ct.print_raw_usb_msg()
-    ct.print_button_msg()
+    #ct.print_button_msg()
+    #ct.get_interrupt_msg()
+    ct.print_button_press()
 
 

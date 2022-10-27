@@ -73,4 +73,13 @@ class DebugSpaceMouseProWireless(SpaceMouseProWireless):
             print(self._dev)
 
     def print_button_press(self):
+        """Not a very efficient method, but works for debugging"""
+        sleepPeriod = 0.1
 
+        while not self.paramDict['escape']:
+            super().get_interrupt_msg()
+
+            for key in self.paramKeyList[6:]:
+                if self.paramDict[key]:
+                    print(key + ' is pressed.')
+            time.sleep(sleepPeriod)

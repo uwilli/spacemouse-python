@@ -16,35 +16,51 @@ import usb.util
 class SpaceMouseProWireless:
     def __init__(self):
         # INTERFACE VARIABLES
-        self.x = None
-        self.y = None
-        self.z = None
-        self.roll = None
-        self.pitch = None
-        self.yaw = None
-
-        self.b1 = False
-        self.b2 = False
-        self.b3 = False
-        self.b4 = False
-
-        self.escape = False
-        self.shift = False
-        self.control = False
-        self.alt = False
-
-        self.top = False
-        self.front = False
-        self.right = False
-        self.rollView = False
-        self.lockRotation = False
-
-        self.menu = False
-        self.fit = False
+        self.paramDict = dict(x=None,
+                              y=None,
+                              z=None,
+                              roll=None,
+                              pitch=None,
+                              yaw=None,
+                              b1=False,
+                              b2=False,
+                              b3=False,
+                              b4=False,
+                              escape=False,
+                              shift=False,
+                              control=False,
+                              alt=False,
+                              top=False,
+                              front=False,
+                              right=False,
+                              rollView=False,
+                              lockRotation=False,
+                              menu=False,
+                              fit=False)
 
         # DEVICE INFO
-        # I consider changing the individual member variables to a list.
-        # self.interfaceVars = [self.x, self.y, self.z, self.roll, self.pitch, self.yaw, self.lockRotation]
+        # dict.keys is not accessible by index
+        self.paramKeyList = ['x',
+                             'y',
+                             'z',
+                             'roll',
+                             'pitch',
+                             'yaw',
+                             'b1',
+                             'b2',
+                             'b3',
+                             'b4',
+                             'escape',
+                             'shift',
+                             'control',
+                             'alt',
+                             'top',
+                             'front',
+                             'right',
+                             'rollView',
+                             'lockRotation',
+                             'menu',
+                             'fit']
 
         # USB id -> change for your space mouse receiver
         self.idVendor = 0x256f  # use usbFindVendorProductID.py
@@ -95,44 +111,22 @@ class SpaceMouseProWireless:
                 return False
         return True
 
-    def __buttons_to_false(self):
-        self.b1 = False
-        self.b2 = False
-        self.b3 = False
-        self.b4 = False
-
-        self.escape = False
-        self.shift = False
-        self.control = False
-        self.alt = False
-
-        self.top = False
-        self.front = False
-        self.right = False
-        self.rollView = False
-        self.lockRotation = False
-
-        self.menu = False
-        self.fit = False
 
     def _write_released(self):
-        self.x = None
-        self.y = None
-        self.z = None
-        self.roll = None
-        self.pitch = None
-        self.yaw = None
+        for key in self.paramKeyList[:6]:
+            self.paramDict[key] = None
 
-        self.__buttons_to_false()
+        for key in self.paramKeyList[6:]:
+            self.paramDict[key] = False
 
     def _write_joystick(self, usb_msg):
-        """Write 6 DoF of Joystick to member variables."""
-        self.x = self.__to_int16(usb_msg[1], usb_msg[2])
-        self.y = -1 * self.__to_int16(usb_msg[3], usb_msg[4])
-        self.z = -1 * self.__to_int16(usb_msg[5], usb_msg[6])
-        self.pitch = -1 * self.__to_int16(usb_msg[7], usb_msg[8])
-        self.roll = -1 * self.__to_int16(usb_msg[9], usb_msg[10])
-        self.yaw = -1 * self.__to_int16(usb_msg[11], usb_msg[12])
+        """Write 6 DoF of Joystick to parameter dictionary."""
+        self.paramDict['x'] = self.__to_int16(usb_msg[1], usb_msg[2])
+        self.paramDict['y'] = -1 * self.__to_int16(usb_msg[3], usb_msg[4])
+        self.paramDict['z'] = -1 * self.__to_int16(usb_msg[5], usb_msg[6])
+        self.paramDict['pitch'] = -1 * self.__to_int16(usb_msg[7], usb_msg[8])
+        self.paramDict['roll'] = -1 * self.__to_int16(usb_msg[9], usb_msg[10])
+        self.paramDict['yaw'] = -1 * self.__to_int16(usb_msg[11], usb_msg[12])
 
     def _write_button(self, usb_msg):
         """Button states are transmitted as a bit Register. Bytes at index 5 and 6 carry
@@ -145,65 +139,65 @@ class SpaceMouseProWireless:
 
         # Each individually set to false to avoid false reading of member variable with timing inbetween setting false and verifying bit register.
         if bitReg & 0x80000000 >> 2:
-            self.front = True
+            self.paramDict['front'] = True
         else:
-            self.front = False
+            self.paramDict['front'] = False
         if bitReg & 0x80000000 >> 3:
-            self.right = True
+            self.paramDict['right'] = True
         else:
-            self.right = False
+            self.paramDict['right'] = False
         if bitReg & 0x80000000 >> 5:
-            self.top = True
+            self.paramDict['top'] = True
         else:
-            self.top = False
+            self.paramDict['top'] = False
         if bitReg & 0x80000000 >> 6:
-            self.fit = True
+            self.paramDict['fit'] = True
         else:
-            self.fit = False
+            self.paramDict['fit'] = False
         if bitReg & 0x80000000 >> 7:
-            self.menu = True
+            self.paramDict['menu'] = True
         else:
-            self.menu = False
+            self.paramDict['menu'] = False
         if bitReg & 0x80000000 >> 8:
-            self.b4 = True
+            self.paramDict['b4'] = True
         else:
-            self.b4 = False
+            self.paramDict['b4'] = False
         if bitReg & 0x80000000 >> 9:
-            self.b3 = True
+            self.paramDict['b3'] = True
         else:
-            self.b3 = False
+            self.paramDict['b3'] = False
         if bitReg & 0x80000000 >> 10:
-            self.b2 = True
+            self.paramDict['b2'] = True
         else:
-            self.b2 = False
+            self.paramDict['b2'] = False
         if bitReg & 0x80000000 >> 11:
-            self.b1 = True
+            self.paramDict['b1'] = True
         else:
-            self.b1 = False
+            self.paramDict['b1'] = False
         if bitReg & 0x80000000 >> 15:
-            self.rollView = True
+            self.paramDict['rollView'] = True
         else:
-            self.rollView = False
+            self.paramDict['rollView'] = False
         if bitReg & 0x80000000 >> 16:
-            self.alt = True
+            self.paramDict['alt'] = True
         else:
-            self.alt = False
+            self.paramDict['alt'] = False
         if bitReg & 0x80000000 >> 17:
-            self.escape = True
+            self.paramDict['escape'] = True
         else:
-            self.escape = False
+            self.paramDict['escape'] = False
         if bitReg & 0x80000000 >> 29:
-            self.lockRotation = True
+            self.paramDict['lockRotation'] = True
         else:
-            self.lockRotation = False
+            self.paramDict['lockRotation'] = False
         if bitReg & 0x80000000 >> 30:
-            self.control = True
+            self.paramDict['control'] = True
         else:
-            self.control = False
+            self.paramDict['control'] = False
         if bitReg & 0x80000000 >> 31:
-            self.shift = True
+            self.paramDict['shift'] = True
         else:
-            self.shift = False
+            self.paramDict['shift'] = False
 
 
     def get_interrupt_msg(self):
@@ -234,8 +228,7 @@ class SpaceMouseProWireless:
             # print('inactivity?')
             pass
         else:
-            print(msg_type)
-            raise ValueError('Unknown message type. Different Spacemouse?')
+            raise ValueError('Unknown message type, number ' + str(msg_type) + '. Different Spacemouse?')
 
 
     def __to_int16(self, y1, y2):
