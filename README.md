@@ -4,11 +4,13 @@ Python interface for 3D Connexion SpaceMouse Pro Wireless based on pyUsb.
 Other 3D-Connexion devices have not been tested.
 
 Buttons 1-4 are single press, continuously pressing these does not generate a signal.
+Slow or long presses of buttons 1-4 do not register as presses.
 The rest of the buttons can be pressed continuously.
 
 ## Work in progress
 
-Pressing at least 3 of the buttons 1 to 4 simultaneously generates false positives for other buttons.
+Pressing more than 2 Buttons simultaneously in some combinations causes false positives on other buttons.
+I'm not sure if this is my code or the device.
 
 ## Getting started
 
@@ -16,6 +18,7 @@ Pressing at least 3 of the buttons 1 to 4 simultaneously generates false positiv
 2. Configure access rights to USB device (see Ubuntu USB devices access rights)
 3. Change product and vendor id member variables in spaceMouseProWireless class.
 4. Run the demo.py script
+   - Note : The escape key of the mouse terminates the demo program.
 
 ## Ubuntu USB devices access rights
 
