@@ -6,7 +6,6 @@ Debug file for class spaceMouseProWireless.
 # Imports
 ######################################################################################################
 import debugSpaceMouseProWireless as dsm
-import time
 
 ######################################################################################################
 # Main
@@ -19,6 +18,5 @@ if __name__ == "__main__":
     #ct.print_raw_usb_msg()
     #ct.print_button_msg()
     #ct.get_interrupt_msg()
-    ct.print_button_press()
-
-
+    #ct.print_button_press()
+    ct.print_joystick_active()

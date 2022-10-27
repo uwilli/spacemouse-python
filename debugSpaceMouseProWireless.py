@@ -67,10 +67,12 @@ class DebugSpaceMouseProWireless(SpaceMouseProWireless):
 
 
     def print_device_connected(self):
+        """Print all information about connected usb device provided by usb interface."""
         if self._dev is None:
             print('No Usb device is connected.')
         else:
             print(self._dev)
+
 
     def print_button_press(self):
         """Not a very efficient method, but works for debugging"""
@@ -82,4 +84,17 @@ class DebugSpaceMouseProWireless(SpaceMouseProWireless):
             for key in self.paramKeyList[6:]:
                 if self.paramDict[key]:
                     print(key + ' is pressed.')
+            time.sleep(sleepPeriod)
+
+
+    def print_joystick_active(self):
+        """Not a very efficient method, but works for debugging"""
+        sleepPeriod = 0.1
+
+        while not self.paramDict['escape']:
+            super().get_interrupt_msg()
+
+            for key in self.paramKeyList[:6]:
+                if self.paramDict[key] is not None:
+                    print(key, ' : ', self.paramDict[key])
             time.sleep(sleepPeriod)

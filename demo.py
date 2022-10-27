@@ -14,31 +14,19 @@ import time
 
 if __name__ == "__main__":
 
-    controller = sm.SpaceMouseProWireless()
-
-    # FOR LATER, in the moment only single button presses reliable
-    # Remember if button pressed or released, starting with all released.
-    # Order: Menu, Fit, Top, Right, Front, Roll View, B1, B2, B3, B4,  Escape, Alt, Shift, Ctrl, Lock Rotation
-    # ButtonStates = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
-
+    ct = sm.SpaceMouseProWireless() # controller
 
     # Loop, this usb device works with interrupt communication
     run = True
     sleepPeriod = 0.5
 
     while run:
-        controller.get_interrupt_msg()
-        if controller.escape:
+        ct.get_interrupt_msg()
+        if ct.paramDict['escape']:
             run = False
 
-        for var in controller.interfaceVars:
-            print(var)
-
-        print('B1     : ', controller.b1)
-        print('B2     : ', controller.b2)
-        print('B3     : ', controller.b3)
-        print('B4     : ', controller.b4)
-        print('LockRot: ', controller.lockRotation)
+        for key in ct.paramKeyList:
+            print(key, ' : ', ct.paramDict[key])
 
         time.sleep(sleepPeriod)
     # end while
