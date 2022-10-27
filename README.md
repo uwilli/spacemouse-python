@@ -66,4 +66,5 @@ https://github.com/jwick1234/3d-mouse-rpi-python
 https://github.com/johnhw/pyspacenavigator/blob/master/spacenavigator.py
 - Rolf of Saxony, stackoverflow.
 https://stackoverflow.com/questions/3738173/why-does-pyusb-libusb-require-root-sudo-permissions-on-linux
-
+- Martin Fitzpatrick, pythonguis.com.  
+https://www.pythonguis.com/tutorials/pyqt-signals-slots-events/

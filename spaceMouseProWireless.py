@@ -74,7 +74,8 @@ class SpaceMouseProWireless:
 
 
     def __del__(self):
-        usb.util.dispose_resources(self._dev)  # free usb device
+        if usb is not None:
+            usb.util.dispose_resources(self._dev)  # free usb device
 
 
     def get_interrupt_msg(self):
@@ -84,11 +85,11 @@ class SpaceMouseProWireless:
         usb_int = self._get_usb_msg_timeout_to_none()
 
         if usb_int is None:
-            return # No interrupt message received, stop function execution
+            return 1 # No interrupt message received, stop function execution
 
         if self._is_spacemouse_released(usb_int): # No button pressed, joystick in 0-position
             self._write_released()
-            return
+            return 0
 
         msg_type = usb_int[0]
 
@@ -106,6 +107,7 @@ class SpaceMouseProWireless:
             pass
         else:
             raise ValueError('Unknown message type, number ' + str(msg_type) + '. Different Spacemouse?')
+        return 0
 
 
     def _find_usb_device(self):
@@ -123,6 +125,7 @@ class SpaceMouseProWireless:
                 self._dev.detach_kernel_driver(0)
             except usb.core.USBError:
                 raise RuntimeError("Could not detach kernel driver from interface 0")
+
 
     def _get_usb_msg_timeout_to_none(self):
         try:
