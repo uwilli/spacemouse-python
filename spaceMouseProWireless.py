@@ -87,7 +87,7 @@ class SpaceMouseProWireless:
         if usb_int is None:
             return 1 # No interrupt message received, stop function execution
 
-        if self._is_spacemouse_released(usb_int): # No button pressed, joystick in 0-position
+        if __class__._is_spacemouse_released(usb_int): # No button pressed, joystick in 0-position
             self._write_released()
             return 0
 
@@ -138,7 +138,8 @@ class SpaceMouseProWireless:
         return usb_msg
 
 
-    def _is_spacemouse_released(self, usb_msg):
+    @staticmethod
+    def _is_spacemouse_released(usb_msg):
         # if buttons released/Joystick not touched, msg is all zeros except msg type
         released = True
 
@@ -158,12 +159,12 @@ class SpaceMouseProWireless:
 
     def _write_joystick(self, usb_msg):
         """Write 6 DoF of Joystick to parameter dictionary."""
-        self.paramDict['x'] = self.__to_int16(usb_msg[1], usb_msg[2])
-        self.paramDict['y'] = -1 * self.__to_int16(usb_msg[3], usb_msg[4])
-        self.paramDict['z'] = -1 * self.__to_int16(usb_msg[5], usb_msg[6])
-        self.paramDict['pitch'] = -1 * self.__to_int16(usb_msg[7], usb_msg[8])
-        self.paramDict['roll'] = -1 * self.__to_int16(usb_msg[9], usb_msg[10])
-        self.paramDict['yaw'] = -1 * self.__to_int16(usb_msg[11], usb_msg[12])
+        self.paramDict['x'] = __class__.__to_int16(usb_msg[1], usb_msg[2])
+        self.paramDict['y'] = -1 * __class__.__to_int16(usb_msg[3], usb_msg[4])
+        self.paramDict['z'] = -1 * __class__.__to_int16(usb_msg[5], usb_msg[6])
+        self.paramDict['pitch'] = -1 * __class__.__to_int16(usb_msg[7], usb_msg[8])
+        self.paramDict['roll'] = -1 * __class__.__to_int16(usb_msg[9], usb_msg[10])
+        self.paramDict['yaw'] = -1 * __class__.__to_int16(usb_msg[11], usb_msg[12])
 
 
     def _write_button(self, usb_msg):
@@ -173,7 +174,7 @@ class SpaceMouseProWireless:
            [,, front, right,, top, fit, menu, b4, b3, b2, b1,,,, rollView, alt, escape,,,,,,,,,,,, lockRotation, control, shift]
            [,, 2,     3,    , 5,   6,   7,    8,  9,  10, 11,,,, 15,       16,  17,    ,,,,,,,,,,, 29,           30,      31   ]
         """
-        bitReg = self.__to_uint32(usb_msg[4], usb_msg[3], usb_msg[2], usb_msg[1])
+        bitReg = __class__.__to_uint32(usb_msg[4], usb_msg[3], usb_msg[2], usb_msg[1])
 
         # Each individually set to false to avoid false reading of member variable with timing inbetween setting false and verifying bit register.
         if bitReg & 0x80000000 >> 2:
@@ -237,8 +238,8 @@ class SpaceMouseProWireless:
         else:
             self.paramDict['shift'] = False
 
-
-    def __to_int16(self, y1, y2):
+    @staticmethod
+    def __to_int16(y1, y2):
         """y1 is LSB
            convert two 8 bit bytes to a signed 16-bit integer
         """
@@ -247,8 +248,8 @@ class SpaceMouseProWireless:
             x = -(65536 - x)
         return x
 
-
-    def __to_uint32(self, y1, y2, y3, y4):
+    @staticmethod
+    def __to_uint32(y1, y2, y3, y4):
         """y1 is LSB"""
         x = y1 | (y2 << 8) | (y3 << 16) | (y4 << 24)
         return x
