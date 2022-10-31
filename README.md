@@ -9,6 +9,7 @@ The rest of the buttons can be pressed continuously.
 
 ## Work in progress
 
+Implementing tests with pytest and mock objects.
 Pressing more than 2 Buttons simultaneously in some combinations causes false positives on other buttons.
 I'm not sure if this is my code or the device.
 
