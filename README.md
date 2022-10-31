@@ -17,7 +17,7 @@ I'm not sure if this is my code or the device.
 
 1. Install dependencies (see Dependencies)
 2. Configure access rights to USB device (see Ubuntu USB devices access rights)
-3. Change product and vendor id member variables in spaceMouseProWireless class.
+3. Change product and vendor id standard arguments in spaceMouseProWireless class init function. Or pass your id's when creating the spacemouse object.
 4. Run the demo.py script
    - Note : The escape key of the mouse terminates the demo program.
 
@@ -47,9 +47,17 @@ Done!
 
 ## Dependencies
 
+### Primary dependencies (SpaceMouseProWireless class)
+
 - Pyusb
-- Time
+
+### Secondary dependencies (demo.py)
+- PyQt5
 - Sys
+
+### Development dependencies (debug, test)
+- Time
+- Pytest
 
 ## Platforms
 

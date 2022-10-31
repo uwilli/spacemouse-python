@@ -14,7 +14,11 @@ import usb.util
 ######################################################################################################
 
 class SpaceMouseProWireless:
-    def __init__(self):
+    def __init__(self, usb_vendor_id=0x256f, usb_product_id=0xc652):
+        """USB id -> change for your space mouse receiver in the default arguments
+        or pass yours when initialising.
+        use usbFindVendorProductID.py or $ lsusb to find yours.
+        """
         # INTERFACE VARIABLES
         self.paramDict = dict(x=None,
                               y=None,
@@ -62,9 +66,9 @@ class SpaceMouseProWireless:
                              'menu',
                              'fit']
 
-        # USB id -> change for your space mouse receiver
-        self.idVendor = 0x256f  # use usbFindVendorProductID.py
-        self.idProduct = 0xc652
+
+        self.idVendor = usb_vendor_id
+        self.idProduct = usb_product_id
 
         # PRIVATE VARIABLES
         self._dev = None
