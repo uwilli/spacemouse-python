@@ -78,7 +78,7 @@ class SpaceMouseProWireless:
 
 
     def __del__(self):
-        if usb is not None:
+        if self._dev is not None:
             usb.util.dispose_resources(self._dev)  # free usb device
 
 
