@@ -5,8 +5,14 @@ Currently only single button presses are considered. The information available w
 to be recognized.
 """
 
-import usb.core
-import usb.util
+# TESTING --- Mock Package ---
+UNIT_TEST = True
+
+if UNIT_TEST:
+    import mock_usb as usb
+else:
+    import usb.core
+    import usb.util
 
 
 ######################################################################################################

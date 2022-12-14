@@ -2,6 +2,7 @@ import array
 import sys
 
 import pytest
+
 import spaceMouseProWireless as sm
 
 class Test2BytesToIntegerConversion():
@@ -106,7 +107,7 @@ class TestParamDictionary:
 
 #TODO: _get_usb_msg_timeout_to_none(), _find_usb_device(), get_interrupt_msg(),
 # Coverage Analysis
-# fixture/mock object
+
 
 
 
