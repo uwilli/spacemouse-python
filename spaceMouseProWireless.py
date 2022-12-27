@@ -4,6 +4,7 @@ This class reads the data from the 3d connexion Spacemouse Pro Wireless makes th
 Currently only single button presses are considered. The information available would allow concurrent and nested pushes
 to be recognized.
 """
+import sys
 
 from byteToIntConversion import *
 
