@@ -24,7 +24,6 @@ class SpaceMouseLoop(QObject):
         super().__init__()
         self.ct = sm.SpaceMouseProWireless()  # controller
 
-
     def run(self):
         while not self.ct.paramDict['escape']:
             ret = self.ct.get_interrupt_msg()
@@ -89,7 +88,7 @@ class MainWindow(QMainWindow):
         self.worker.finished.connect(self.thread.quit)
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
-        self.thread.finished.connect(sys.exit)
+        self.thread.finished.connect(QApplication.quit)
         self.worker.progress.connect(self.displayParams)
         self.thread.start()
 
