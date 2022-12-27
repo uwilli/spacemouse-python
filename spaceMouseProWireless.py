@@ -94,16 +94,20 @@ class SpaceMouseProWireless:
         if usb_int is None:
             return 1 # No interrupt message received, stop function execution
 
-        if __class__._is_spacemouse_released(usb_int): # No button pressed, joystick in 0-position
-            self._write_released()
-            return 0
-
         msg_type = usb_int[0]
 
         if msg_type == 1:  # Joystick
+            if __class__._is_spacemouse_released(usb_int):  # joystick in 0-position
+                self._write_joystick_released()
+                return 0
+
             self._write_joystick(usb_int)
 
         elif msg_type == 3: # Button
+            if __class__._is_spacemouse_released(usb_int):  # No button pressed
+                self._write_buttons_released()
+                return 0
+
             self._write_button(usb_int)
 
         elif msg_type == 22:
@@ -157,10 +161,12 @@ class SpaceMouseProWireless:
         return True
 
 
-    def _write_released(self):
+    def _write_joystick_released(self):
         for key in self.paramKeyList[:6]:
             self.paramDict[key] = None
 
+
+    def _write_buttons_released(self):
         for key in self.paramKeyList[6:]:
             self.paramDict[key] = False
 
@@ -180,7 +186,7 @@ class SpaceMouseProWireless:
            no information for this spacemouse.
            BitRegister Mapping (zero-indexed):
            [,, front, right,, top, fit, menu, b4, b3, b2, b1,,,, rollView, alt, escape,,,,,,,,,,,, lockRotation, control, shift]
-           [,, 2,     3,    , 5,   6,   7,    8,  9,  10, 11,,,, 15,       16,  17,    ,,,,,,,,,,, 29,           30,      31   ]
+           [,, 29,    28,   , 26,  25,  24,   23, 22, 21, 20,,,, 16,       15,  14,    ,,,,,,,,,,, 2,            1,       0    ]
         """
         bitReg = to_uint32(usb_msg[4], usb_msg[3], usb_msg[2], usb_msg[1])
 
