@@ -8,14 +8,14 @@ import spaceMouseProWireless as sm
 
 
 
-class TestUsbInterface:
+class UsbInterface:
     @staticmethod
     def test_no_device_found_raises_ValueError():
         with pytest.raises(ValueError):
             ct = sm.SpaceMouseProWireless(usb_vendor_id=0, usb_product_id=0)
 
 
-class TestParamDictionary:
+class ParamDictionary:
     def test_write_button_sets_true(self):
         msg = array.array('i', [0, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00])
         ct = sm.SpaceMouseProWireless()

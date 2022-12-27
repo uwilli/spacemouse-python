@@ -1,0 +1,19 @@
+# .coveragerc
+
+# Control coverage.py settings
+
+[run]
+branch = true
+
+source =
+    spaceMouseProWireless
+    byteToIntConversion
+
+[report]
+exclude_lines =
+    pragma: no cover
+
+show_missing = true
+
+[html]
+directory = cov_report
