@@ -1,4 +1,5 @@
 .coverage
+.coverage\ *
 .idea
 __pycache__
 playground.py

@@ -7,18 +7,16 @@ Buttons 1-4 are single press, continuously pressing these does not generate a si
 Slow or long presses of buttons 1-4 do not register as presses.
 The rest of the buttons can be pressed continuously.
 
-## Work in progress
-
-Implementing tests with pytest and mock objects.
-Pressing more than 2 Buttons simultaneously in some combinations causes false positives on other buttons.
-I'm not sure if this is my code or the device.
+Simultaneous presses of more than 2 buttons can cause false positives on non-pressed buttons
+and false negatives on some pressed buttons. This behaviour is created by the spacemouse (and not my code), as has
+become apparent with unit and UI tests.
 
 ## Getting started
 
 1. Install dependencies (see Dependencies)
 2. Configure access rights to USB device (see Ubuntu USB devices access rights)
 3. Change product and vendor id standard arguments in spaceMouseProWireless class init function. Or pass your id's when creating the spacemouse object.
-4. Run the demo.py script
+4. Run the demo.py script (in the demo folder)
    - Note : The escape key of the mouse terminates the demo program.
 
 ## Ubuntu USB devices access rights
